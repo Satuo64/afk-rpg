@@ -1,0 +1,1183 @@
+/* --- 1. Base Framework Reset --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0b0e14;
+    color: #f0f3f8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- 2. Flexbox Column Layout Engine --- */
+.split-screen {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+/* Left Image Panel Block */
+.left-side {
+    flex: 1;
+    /* Looks right beside this file inside the css folder for your artwork */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                url('castle-bg.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Right Text Input Panel Block */
+.right-side {
+    flex: 1;
+    background-color: #0b1424; /* Deep navy dark panel accent matching your screenshot */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* --- 3. Left Panel Typography --- */
+.banner-content h1 {
+    font-size: 4rem;
+    color: #ffffff;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.banner-content .tagline {
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* --- 4. Right Panel Typography --- */
+.form-container h2 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.form-container .subheading {
+    font-size: 1.1rem;
+    color: #a0aab8;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+/* --- 5. Inputs & Labels Configuration --- */
+form {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #0d1b2e;
+    border: 1px solid #22334d;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+/* --- 6. Flat Action Buttons --- */
+.action-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #22c55e; /* Flat green CTA theme block */
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #16a34a; /* Shifts slightly darker when hovered */
+}
+
+/* --- 7. Hyperlinks --- */
+.footer-text {
+    margin-top: 25px;
+    font-size: 0.95rem;
+    color: #a0aab8;
+    text-align: center;
+}
+
+.footer-text a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* --- 8. Responsive Mobile Breakpoint --- */
+@media (max-width: 768px) {
+    .split-screen {
+        flex-direction: column; /* Stacks artwork above forms automatically on screens like mobile phones */
+    }
+    .left-side {
+        padding: 60px 20px;
+    }
+    .right-side {
+        padding: 40px 20px;
+    }
+}
+
+/* --- 9. Class Cards Selection Tweaks --- */
+.class-card {
+    background-color: #0d1b2e;
+    border: 1px solid #22334d;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.class-card:hover {
+    transform: translateY(-2px);
+    border-color: #3b82f6; /* Subtle blue glow on hover */
+}
+
+.class-card h3 {
+    font-size: 1.3rem;
+    color: #601e1e;
+    margin-bottom: 5px;
+}
+
+.class-card p {
+    font-size: 0.9rem;
+    color: #a0aab8;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.select-class {
+    margin-top: 0;
+    padding: 10px;
+    font-size: 0.95rem;
+}
+/* --- 10. Dashboard & Sidebar Framework Engine --- */
+.dashboard-layout {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #050b14;
+}
+
+.sidebar {
+    width: 280px;            /* Widened slightly to balance big text elements */
+    background-color: #071120;
+    border-right: 2px solid #581c87;
+    display: flex;
+    flex-direction: column;
+    padding: 35px 20px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding-left: 10px;
+}
+
+.logo-area h2 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    color: #a0aab8;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.nav-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nav-item.active, .nav-item:hover:not(.disabled) {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+.logout-area {
+    padding-top: 20px;
+    border-top: 1px solid #1e293b;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+/* Right Side Content Panel Area */
+.main-content {
+    margin-left: 280px; 
+    flex-grow: 1;
+    padding: 50px 60px;     /* Increased padding to spread items out cleanly */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #050b14;
+}
+
+.content-header {
+    width: 100%;
+    max-width: 1400px;      /* EXPANDED CONTENT WIDTH TARGET (Was 1000px) */
+    text-align: left;
+    margin-bottom: 35px;
+}
+
+.content-header h1 {
+    font-size: 2.8rem;      /* Scaled up font */
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.content-header p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+/* --- 11. Class Selection Grid Row (Expanded & Enhanced) --- */
+.class-selection-row {
+    display: flex;
+    justify-content: center;
+    gap: 35px;                 /* Increased gap between cards */
+    width: 100%;
+    max-width: 1200px;         /* Made the total layout row wider (was 1000px) */
+    margin: 20px auto 0 auto;  /* centers the row itself within wider parent sections */
+}
+
+.selection-card {
+    flex: 1;
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 16px;       /* Made the corners slightly more rounded */
+    padding: 50px 35px;        /* Increased inside padding to make cards physically taller and wider */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.selection-card:hover {
+    transform: translateY(-6px);
+    border-color: #38bdf8;
+    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.15); /* Adds a premium hover glow */
+}
+
+/* Scaled up the emojis/icons inside the cards */
+.card-icon-wrapper {
+    font-size: 4.5rem;         /* Blew up the icon size (was 3.5rem) */
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+/* Scaled up the Class Titles */
+.selection-card h3 {
+    font-size: 1.8rem;         /* Increased title text size (was 1.4rem) */
+    color: #ffffff;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+/* Scaled up the Descriptions */
+.selection-card p {
+    font-size: 1.1rem;         /* Increased text size for easy reading (was 0.95rem) */
+    color: #94a3b8;
+    line-height: 1.6;
+    text-align: center;
+    
+    flex-grow: 1;              
+    margin-bottom: 40px;       /* Pushes buttons further down */
+    display: flex;
+    align-items: center;       
+    justify-content: center;
+    min-height: 90px;          /* Adjusted container height to match new text size */
+}
+
+/* Scaled up the Action Buttons */
+.select-btn {
+    width: 100%;
+    padding: 18px;             /* Made the buttons chunkier and easier to click */
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;         /* Increased button text size (was 1.05rem) */
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: auto;          
+    transition: filter 0.2s, transform 0.1s;
+}
+
+.select-btn:hover {
+    filter: brightness(1.1);   /* Makes buttons glow slightly on hover */
+}
+
+.select-btn:active {
+    transform: scale(0.98);    /* Adds a satisfying click animation */
+}
+
+/* --- Skill Progress Elements (Skills page) --- */
+.skill-card.active {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3), 0 10px 25px rgba(34, 197, 94, 0.1);
+}
+
+.skill-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.skill-level-badge {
+    background-color: #1e293b;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.skill-stat-value {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.skill-xp-track {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(15, 23, 42, 0.8);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.skill-xp-fill {
+    height: 100%;
+    background-color: #38bdf8;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.skill-xp-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 8px 0 20px 0;
+    text-align: center;
+}
+
+.skill-card .select-btn:disabled {
+    background-color: #14532d;
+    color: #86efac;
+    cursor: default;
+    opacity: 0.85;
+}
+
+
+/* --- 12. Flat Colored Functional CTA Buttons --- */
+.select-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.select-btn:hover {
+    opacity: 0.9;
+}
+
+.btn-blue { background-color: #3b82f6; }
+.btn-green { background-color: #22c55e; }
+.btn-purple { background-color: #a855f7; }
+/* --- 13. Main Menu Dashboard Extensions --- */
+
+/* Castle Background Hero Banner Box */
+.hero-banner {
+    width: 100%;
+    max-width: 1400px;      /* Stretches wide to fill empty space */
+    height: 280px;          /* Taller banner presence */
+    border-radius: 16px;
+    background: linear-gradient(to right, rgba(7, 17, 32, 0.95) 40%, rgba(7, 17, 32, 0.3)),
+                url('castle-bg.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 60px;          /* Deep padding */
+    margin-bottom: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.banner-overlay-text {
+    text-align: left;
+}
+
+.banner-overlay-text h1 {
+    font-size: 3.2rem;      /* Massive welcoming titles text */
+    color: #ffffff;
+}
+
+.banner-overlay-text p {
+    font-size: 1.4rem;      /* Scaled up text tagline */
+    color: #94a3b8;
+}
+
+/* Character Stat Grid Block */
+.stats-row {
+    display: flex;
+    gap: 25px;              /* Wider spacer margins */
+    width: 100%;
+    max-width: 1400px;      /* Stretches across layout */
+    margin-bottom: 35px;
+}
+
+.stat-badge {
+    flex: 1;
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 25px 30px;     /* Much larger interior space allocation */
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-icon {
+    font-size: 2.5rem;      /* Large graphic badges */
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.stat-label {
+    font-size: 1rem;        /* Highly readable labels */
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.stat-value {
+    font-size: 1.6rem;      /* Huge tracking value indicators */
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Central Combat Action Hub */
+.battle-card-container {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.battle-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.monster-avatar-block {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-grow: 1;
+}
+
+.monster-art {
+    font-size: 4rem;
+    background-color: #071120;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #1e293b;
+}
+
+.monster-details {
+    text-align: left;
+    flex-grow: 1;
+    max-width: 500px;
+}
+
+.monster-details h3 {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.monster-details h4 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.monster-details .hp-text {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* Monster Health Bar Progress System */
+.health-bar-track {
+    width: 100%;
+    height: 12px;
+    background-color: #1e293b;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.health-bar-fill {
+    width: 100%; /* Interactive layout linked to JavaScript simulation logic */
+    height: 100%;
+    background-color: #ef4444; /* Clean flat red monster health bar */
+    border-radius: 6px;
+    transition: width 0.2s ease-out;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+.battle-actions-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 260px;           /* Wider interface action control column */
+}
+
+.menu-action-btn {
+    width: 100%;
+    padding: 18px;          /* Thick click surfaces blocks */
+    border-radius: 8px;
+    font-size: 1.2rem;      /* Larger action font sizes */
+    font-weight: bold;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #475569;
+}
+
+/* Bottom Quick Nav Hub */
+.quick-nav-row {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.quick-btn {
+    flex: 1;
+    padding: 22px;          /* Huge chunky shortcut layout keys buttons */
+    border-radius: 12px;
+    font-size: 1.3rem;
+}
+
+.quick-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+/* --- 14. Inventory Screen Layout & Grid system --- */
+.inventory-header {
+    width: 100%;
+    max-width: 1400px;      
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 35px;
+}
+
+.header-titles { 
+    text-align: left; 
+}
+
+.inventory-header h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.inventory-header p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+.gold-badge {
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 15px 30px;     
+    color: #cbd5e1;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Equipped Gear Containers (3 slots: Weapon, Armor, Helmet) */
+.equipment-row {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    width: 100%;
+    max-width: 1050px;      /* scaled down from 1400px now that Accessory slot is gone */
+    margin: 0 auto 40px auto;
+}
+
+.equip-slot {
+    flex: 1;
+    height: 150px;          
+    background-color: #0d1b2e;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    font-size: 3rem;        
+    display: flex;
+    align-items: center;     
+    justify-content: center; 
+    cursor: pointer;
+    transition: all 0.2s;
+}       
+
+.equip-slot:hover {
+    border-color: #3b82f6;
+    background-color: #11253e;
+}
+
+/* Main Backpack Grid Matrix Mapping */
+.inventory-bag-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Forms 10 columns equally across */
+    gap: 16px;              
+    
+    width: 100%;             /* FORCE ELEMENT TO STRETCH EDGE TO EDGE */
+    max-width: 1400px;       /* EXPANDS MAX LANDSCAPE LIMIT TO MATCH THE HEADERS */
+    
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 35px;
+}
+
+.bag-slot {
+    width: 100%;             /* FORCES INDIVIDUAL SLOTS TO EXPAND TO CELL BOUNDS */
+    aspect-ratio: 1 / 1;     /* PERMANENT SQUARE CONSTRAINTS LOCK */
+    background-color: #0d1b2e;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;      
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.bag-slot:hover {
+    border-color: #3b82f6;
+    transform: scale(1.05);
+}
+
+/* Rarity border highlights you can layer onto drops later */
+.item-rare { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
+.item-epic { border-color: #a855f7; background-color: rgba(168, 85, 247, 0.1); }
+
+/* --- 15. Character Overview Screen Styles --- */
+
+/* Profile Badge Layout */
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1400px;      /* Wide landscape profiling frame boundaries */
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.profile-avatar {
+    font-size: 4.5rem;      /* Giant user silhouette container graphic */
+    background-color: #071120;
+    padding: 15px 35px;
+    border-radius: 12px;
+}
+
+.profile-text h2 {
+    font-size: 2.2rem;      /* Clear player profiling typography elements */
+}
+
+.profile-text p {
+    font-size: 1.3rem;
+}
+
+/* 4-Column Stats Matrix */
+.character-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards in a single row: HP, Attack, Defense, Critical Chance */
+    gap: 20px;
+    width: 100%;
+    max-width: 1300px;
+    margin-bottom: 40px;
+}
+
+.char-stat-card {
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 14px;
+    padding: 30px;          /* Taller, bulkier parameter overview blocks */
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.char-stat-icon {
+    font-size: 3rem;        /* Blown up parameter identifiers graphic elements */
+}
+
+.red-icon {
+    filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.4));
+}
+
+.char-stat-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.char-stat-label {
+    font-size: 1.1rem;      /* Clearly defined descriptors values headings */
+}
+
+.char-stat-value {
+    font-size: 1.8rem;      /* Deep bold numbers display attributes outputs */
+    margin-top: 6px;
+}
+
+.equipped-gear-section {
+    width: 100%;
+    max-width: 1400px;      /* Clean uniform alignment base cap row lines */
+}
+
+.equipped-gear-section h3 {
+    font-size: 1.5rem;      /* Enlarged sub-row grouping indicators label */
+    margin-bottom: 20px;
+}
+/* --- 18. Battle Module Selection List & Staging Arena CSS Block Updates --- */
+
+/* Monster List Table Formatting Engine */
+.monster-list-container {
+    width: 100%;
+    max-width: 1400px;
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 30px;
+    overflow-x: auto;
+}
+
+.monster-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.monster-table th {
+    color: #64748b;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #1e293b;
+}
+
+.monster-table td {
+    padding: 30px 10px;
+    border-bottom: 1px solid #1e293b;
+    vertical-align: middle;
+}
+
+.monster-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.monster-sprite-small {
+    font-size: 3rem;
+    background-color: #071120;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.monster-title {
+    font-size: 1.3rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.hp-cell {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.materials-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #94a3b8;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* Flat Red Fight CTA Selection Row Buttons */
+.fight-btn {
+    width: 160px;
+    padding: 14px;
+    background-color: #ef4444; /* Vivid active crimson row danger trigger text colors matching mockups */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.fight-btn:hover { background-color: #dc2626; }
+
+/* Active Fighting Panorama Backdrop Box Frame Modules */
+.battle-arena-stage {
+    width: 100%;
+    max-width: 1400px;
+    height: 380px;
+    border-radius: 16px;
+    /* Optional: Replace with a forest background image file link later if you want */
+    background: linear-gradient(rgba(5, 11, 20, 0.6), rgba(5, 11, 20, 0.6)), 
+                url('battle-bg.jpg') no-repeat center center;
+    background-size: cover;
+    border: 2px solid #581c87; /* Purple framing highlight wrapper matching reference screenshot rules boundaries */
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.fighter-box {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+}
+
+.fighter-header-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.arena-hp-bar-track {
+    width: 100%;
+    height: 16px;
+    background-color: rgba(15, 23, 42, 0.8);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 25px;
+}
+
+.arena-hp-bar-fill {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+
+.fill-green { background-color: #22c55e; box-shadow: 0 0 10px rgba(34, 197, 94, 0.6); }
+.fill-red { background-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
+
+.actor-sprite {
+    font-size: 6rem;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7));
+    margin-top: 10px;
+}
+
+.player-graphic { text-align: left; transform: scaleX(-1); /* Flips sprite around to face enemy target */ }
+.monster-graphic { text-align: right; }
+
+/* Sub-Arena Live Console Text Lines Display Blocks */
+.arena-battle-log-feed {
+    width: 100%;
+    max-width: 1400px;
+    background-color: #071120;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin-bottom: 35px;
+}
+
+.arena-log-line {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.arena-log-line.highlight-green { color: #4ade80; font-weight: 600; }
+
+/* Wide Flat Blue Action Continuation Footer Keys Buttons Layout */
+.arena-actions-footer {
+    width: 100%;
+    max-width: 1400px;
+}
+
+.arena-continue-btn {
+    width: 100%;
+    padding: 20px;
+    background-color: #3b82f6; /* Beautiful flat sky blue continuation color matching mockup elements precisely */
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+
+.arena-continue-btn:hover { background-color: #2563eb; }
+
+/* --- 19. Combat Log Dashboard Terminal Component Style Blocks --- */
+.combat-log-container {
+    width: 100%;
+    max-width: 1400px;         /* Uniform width matching your other dashboard panels */
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Inside Console Display Wrapper */
+.combat-log-terminal {
+    width: 100%;
+    height: 480px;             /* Taller frame block box footprint space */
+    background-color: #050b14; /* Deep dark contrast interior background box panel */
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 25px;
+    overflow-y: auto;          /* Automatically enables vertical scrollbars if rows exceed borders */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font for clean gaming logs profile look */
+}
+
+/* Individual Data Line Rows Formatting styling */
+.log-entry {
+    font-size: 1.1rem;
+    text-align: left;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+/* Specific Event Color Highlight Schemes mapping rules */
+.log-entry.system { color: #64748b; }       /* Slate Muted System lines */
+.log-entry.combat { color: #38bdf8; }       /* Ice-blue encounter lines */
+.log-entry.damage-out { color: #eab308; }   /* Yellow deal player damage output text lines */
+.log-entry.damage-in { color: #ef4444; }    /* Red taking incoming monster damage lines */
+.log-entry.victory { color: #22c55e; }      /* Radiant flat green level victory text */
+.log-entry.reward { color: #a855f7; }       /* Magic purple experience levels metrics lines */
+.log-entry.drop { color: #f43f5e; }         /* Rose item percentage calculation matrix tracking */
+.log-entry.drop-item { color: #10b981; }    /* Emerald glowing successful item bag addition text */
+
+/* Lower Action Buttons Spacing Layout adjustments */
+.log-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.log-actions .menu-action-btn {
+    width: auto;
+    min-width: 240px;
+}
+
+/* --- 17. Crafting Station Panel Table Updates (Fixed Width & Spacing) --- */
+.crafting-table-container {
+    width: 100%;
+    max-width: 1400px;
+    background-color: #0b1524;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 35px;
+    overflow-x: auto;
+}
+
+.crafting-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.crafting-table th {
+    color: #64748b;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #1e293b;
+}
+
+.crafting-table td {
+    padding: 25px 15px;
+    border-bottom: 1px solid #1e293b;
+    vertical-align: middle;
+}
+
+.item-name-cell {
+    font-size: 1.25rem;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.desc-cell {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+}
+
+.craft-materials-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #94a3b8;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* 🔮 Premium Purple Craft Action Item Buttons Layout */
+.craft-btn {
+    width: 160px;
+    padding: 14px;
+    background-color: #a855f7; /* Flat deep purple matching your design mockup image */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.craft-btn:hover {
+    background-color: #9333ea; /* Darkens slightly on active hover inputs */
+}
+
+.craft-btn:active {
+    transform: scale(0.97);     /* Satisfying press feedback response */
+}

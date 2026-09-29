@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFK RPG - Create Account</title>
+    <!-- Both pages share your exact same split-screen style sheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="split-screen">
+
+        <!-- Left Side: Dark Fantasy/Cyber Artwork Banner -->
+        <div class="left-side">
+            <div class="banner-content">
+                <!-- If you have the transparent blue character image, put it here -->
+                <!-- <img src="character-silhouette.png" class="character-art" alt="Hero"> -->
+                <h1>AFK RPG</h1>
+                <p class="tagline">Level up get stronger, even when you're away!</p>
+            </div>
+        </div>
+
+        <!-- Right Side: Interactive Forms and Action Boxes -->
+        <div class="right-side">
+            <div class="form-container">
+                <h2>Create Your Account</h2>
+                <p class="subheading">Join the Adventure. Build your character</p>
+
+                <!-- Populated by the script below when signup.php redirects back with ?error=... -->
+                <p id="form-error" class="footer-text" style="color:#f87171; display:none;"></p>
+
+                <form action="auth/signup.php" method="POST">
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <!-- Email Field: required by the users table (UNIQUE NOT NULL) -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required minlength="8">
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm_password" required minlength="8">
+                    </div>
+
+                    <button type="submit" class="action-btn">Register</button>
+
+                    <!-- Link forwarding back to the login page panel -->
+                    <p class="footer-text">Already have an account? <a href="login.html">Login</a></p>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Reads the ?error=... code signup.php redirects back with, if any -->
+    <script>
+        const ERROR_MESSAGES = {
+            missing_fields:       "Please fill in all fields.",
+            password_mismatch:    "Passwords do not match.",
+            password_too_short:   "Password must be at least 8 characters.",
+            invalid_email:        "Please enter a valid email address.",
+            username_taken:       "That username or email is already registered.",
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const errorCode = params.get('error');
+
+        if (errorCode) {
+            const el = document.getElementById('form-error');
+            el.textContent = ERROR_MESSAGES[errorCode] || "Something went wrong. Please try again.";
+            el.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

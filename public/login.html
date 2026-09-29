@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFK RPG - Login</title>
+    <!-- Both pages share the exact same style sheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="split-screen">
+
+        <!-- Left Side: Dark Fantasy/Cyber Artwork Banner -->
+        <div class="left-side">
+            <div class="banner-content">
+                <!-- If you have the transparent blue character image, put it here -->
+                <!-- <img src="character-silhouette.png" class="character-art" alt="Hero"> -->
+                <h1>AFK RPG</h1>
+                <p class="tagline">Level up get stronger, even when you're away!</p>
+            </div>
+        </div>
+
+        <!-- Right Side: Interactive Forms and Action Boxes -->
+        <div class="right-side">
+            <div class="form-container">
+                <h2>Welcome Back</h2>
+                <p class="subheading">Login to continue your journey.</p>
+
+                <!-- Populated by the script below when login.php redirects back with ?error=... -->
+                <p id="form-error" class="footer-text" style="color:#f87171; display:none;"></p>
+
+                <form action="auth/login.php" method="POST">
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <!-- Submit Login Request Button -->
+                    <button type="submit" class="action-btn">Login</button>
+
+                    <!-- Link forwarding to the signup panel -->
+                    <p class="footer-text">Don't have an account? <a href="signup.html">Sign Up here</a></p>
+                    <p class="footer-text"><a href="forgot-password.html">Forgot password?</a></p>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Reads the ?error=... code login.php redirects back with, if any -->
+    <script>
+        const ERROR_MESSAGES = {
+            missing_fields:      "Please fill in both fields.",
+            invalid_login:       "Invalid username or password.",
+            account_suspended:   "This account has been suspended. Contact a moderator or admin.",
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const errorCode = params.get('error');
+
+        if (errorCode) {
+            const el = document.getElementById('form-error');
+            el.textContent = ERROR_MESSAGES[errorCode] || "Something went wrong. Please try again.";
+            el.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
