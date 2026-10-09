@@ -1,19 +1,19 @@
 <?php
 require __DIR__ . '/../config/db.php';
 require __DIR__ . '/../config/auth_guard.php';
+require_once __DIR__ . '/../config/character_stats.php';
 require_character();
 
 $userId = (int) $_SESSION['user_id'];
 
-$stmt = $pdo->prepare('SELECT * FROM characters WHERE user_id = :uid');
-$stmt->execute(['uid' => $userId]);
-$character = $stmt->fetch();
+$stats       = get_character_stats($pdo, $userId);
+$character   = $stats['character'];
 $characterId = (int) $character['character_id'];
 
 $stmt = $pdo->prepare(
     'SELECT ci.item_id, ci.quantity, ci.equipped,
             i.item_name, i.item_type, i.rarity, i.weapon_type, i.description,
-            i.attack_bonus, i.defense_bonus
+            i.attack_bonus, i.defense_bonus, i.heal_amount
      FROM character_inventory ci
      JOIN items i ON i.item_id = ci.item_id
      WHERE ci.character_id = :cid
@@ -52,6 +52,8 @@ function rarity_class(?string $rarity): string
     return match ($rarity) {
         'Rare' => 'item-rare',
         'Epic' => 'item-epic',
+        'Legendary' => 'item-legendary',
+        'Mythic' => 'item-mythic',
         default => '',
     };
 }
@@ -74,6 +76,7 @@ function render_slot(?array $item, string $slotType, string $emptyLabel, array $
 
     $icon = $typeIcon[$item['item_type']] ?? '❔';
     $canEquip = in_array($item['item_type'], ['weapon', 'armor', 'helmet'], true);
+    $canUse   = $item['item_type'] === 'consumable' && (int) $item['heal_amount'] > 0;
     $qtySuffix = $item['quantity'] > 1
         ? '<span style="font-size:0.6rem; margin-left:2px; align-self:flex-end;">×' . (int) $item['quantity'] . '</span>'
         : '';
@@ -93,6 +96,9 @@ function render_slot(?array $item, string $slotType, string $emptyLabel, array $
     if ((int) $item['defense_bonus'] > 0) {
         echo '<p class="item-tooltip-stat">+' . (int) $item['defense_bonus'] . ' Defense</p>';
     }
+    if ((int) $item['heal_amount'] > 0) {
+        echo '<p class="item-tooltip-stat">Heals ' . (int) $item['heal_amount'] . ' HP</p>';
+    }
     if ($item['quantity'] > 1) {
         echo '<p class="item-tooltip-meta">Quantity: ' . (int) $item['quantity'] . '</p>';
     }
@@ -101,6 +107,12 @@ function render_slot(?array $item, string $slotType, string $emptyLabel, array $
         echo '<input type="hidden" name="item_id" value="' . (int) $item['item_id'] . '">';
         echo '<button type="submit" class="select-btn ' . ($item['equipped'] ? 'btn-outline' : 'btn-blue') . '">'
            . ($item['equipped'] ? 'Unequip' : 'Equip') . '</button>';
+        echo '</form>';
+    }
+    if ($canUse) {
+        echo '<form method="POST" action="use-item.php">';
+        echo '<input type="hidden" name="item_id" value="' . (int) $item['item_id'] . '">';
+        echo '<button type="submit" class="select-btn btn-green">Use</button>';
         echo '</form>';
     }
     echo '</div>';
@@ -153,12 +165,20 @@ $emptySlots = max(0, BAG_SLOTS - count($bagItems));
             <div class="inventory-header">
                 <div class="header-titles">
                     <h1>Inventory</h1>
-                    <p>Hover or click an item to see its description — click Equip/Unequip in the panel to act on it</p>
+                    <p>HP: <?= $stats['currentHp'] ?>/<?= $stats['maxHp'] ?> — click a potion and hit Use to heal</p>
                 </div>
                 <div class="gold-badge">
                     <span>Gold : <?= number_format((int) $character['gold']) ?></span>
                 </div>
             </div>
+
+            <?php if (isset($_GET['healed'])): ?>
+                <p style="color:#4ade80; margin-bottom:20px;">
+                    Used <?= htmlspecialchars($_GET['item'] ?? 'potion') ?> — restored <?= (int) $_GET['healed'] ?> HP.
+                </p>
+            <?php elseif (isset($_GET['error']) && in_array($_GET['error'], ['not_usable', 'use_failed'], true)): ?>
+                <p style="color:#f87171; margin-bottom:20px;">That item couldn't be used.</p>
+            <?php endif; ?>
 
             <div class="equipment-row">
                 <?php render_slot($equippedWeapon, 'weapon', 'Weapon Slot (empty)', $typeIcon, 'equip-slot'); ?>

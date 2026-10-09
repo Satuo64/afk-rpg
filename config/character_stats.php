@@ -36,7 +36,7 @@ function get_character_stats(PDO $pdo, int $userId): ?array
     }
 
     $stmt = $pdo->prepare(
-        'SELECT s.skill_id, s.skill_name, s.primary_stat, s.grants_crit, s.damage_multiplier,
+        'SELECT s.skill_id, s.skill_name, s.primary_stat, s.grants_crit, s.damage_multiplier, s.weapon_type,
                 cs.skill_level, cs.current_xp
          FROM character_skills cs
          JOIN skills s ON s.skill_id = cs.skill_id
@@ -70,9 +70,29 @@ function get_character_stats(PDO $pdo, int $userId): ?array
         }
     }
 
-    $attackValue = $activeSkill
+    // Equipped weapon's bonus only counts if its weapon_type matches the
+    // active skill (Melee -> sword, Ranged -> bow, Magic -> wand) — per
+    // the original design, training Magic with a sword equipped gets no
+    // weapon bonus, only the Magic skill stat.
+    $stmt = $pdo->prepare(
+        "SELECT i.item_name, i.weapon_type, i.attack_bonus
+         FROM character_inventory ci
+         JOIN items i ON i.item_id = ci.item_id
+         WHERE ci.character_id = :cid AND ci.equipped = 1 AND i.item_type = 'weapon'
+         LIMIT 1"
+    );
+    $stmt->execute(['cid' => $character['character_id']]);
+    $equippedWeapon = $stmt->fetch() ?: null;
+
+    $weaponBonus = 0;
+    if ($equippedWeapon && $activeSkill && $equippedWeapon['weapon_type'] === $activeSkill['weapon_type']) {
+        $weaponBonus = (int) $equippedWeapon['attack_bonus'];
+    }
+
+    $baseAttack = $activeSkill
         ? STAT_BASE + (((int) $activeSkill['skill_level']) - 1) * STAT_PER_LEVEL
         : STAT_BASE;
+    $attackValue = $baseAttack + $weaponBonus;
     $activeStatLabel = $activeSkill
         ? ucfirst(str_replace('_', ' ', $activeSkill['primary_stat']))
         : 'Attack';
@@ -92,6 +112,9 @@ function get_character_stats(PDO $pdo, int $userId): ?array
         'skillRows'       => $skillRows,
         'activeSkill'      => $activeSkill, // full row, incl. grants_crit + damage_multiplier — used by combat resolution
         'totalLevel'      => $totalLevel,
+        'baseAttack'      => $baseAttack,
+        'weaponBonus'     => $weaponBonus,
+        'equippedWeapon'  => $equippedWeapon,
         'attackValue'     => $attackValue,
         'activeStatLabel' => $activeStatLabel,
         'baseDefense'     => $baseDefense,

@@ -62,11 +62,19 @@ function require_character(): void
     global $pdo;
     $stmt = $pdo->prepare('SELECT character_id FROM characters WHERE user_id = :id');
     $stmt->execute(['id' => $_SESSION['user_id']]);
+    $row = $stmt->fetch();
 
-    if (!$stmt->fetch()) {
+    if (!$row) {
         header('Location: class-selection.php'); // .php, not .html — it was renamed
         exit;
     }
+
+    // If Auto-Fight is on and there's a real gap since the character was
+    // last accounted for, credit it as simulated combat now — before the
+    // page renders, so every number on screen already includes it. Cheap
+    // no-op (one SELECT) whenever auto_battle is off or the gap is tiny.
+    require_once __DIR__ . '/combat_engine.php';
+    apply_offline_progress($pdo, (int) $row['character_id']);
 }
 
 /**

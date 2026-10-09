@@ -37,6 +37,8 @@ $stmt = $pdo->query(
 );
 $auditRows = $stmt->fetchAll();
 
+$monsterStats = $pdo->query('SELECT * FROM vw_monster_kill_stats')->fetchAll();
+
 $errorMessages = [
     'self_action'  => "You can't perform that action on your own account.",
     'not_found'    => 'User not found.',
@@ -53,6 +55,7 @@ $errorMessages = [
     <style>
         /* Two equal columns: View | Suspend on the first row, role select | Set Role
            on the second — so Suspend/Reactivate is exactly as wide as Set Role. */
+        .ov-table td, .ov-table th { padding: 12px 10px; }
         .action-grid { display: grid; grid-template-columns: 125px 125px; gap: 8px; }
         .action-grid form { display: contents; }
         .action-grid .select-btn,
@@ -135,17 +138,20 @@ $errorMessages = [
 
                                         <?php if (!$isSelf): ?>
                                             <!-- Suspend/Reactivate: both moderator and admin -->
-                                            <form method="POST" action="suspend-user.php">
+                                            <?php $actionWord = $u['is_suspended'] ? 'Reactivate' : 'Suspend'; ?>
+                                            <form method="POST" action="suspend-user.php"
+                                                  onsubmit="return confirm('<?= $actionWord ?> account ' + <?= json_encode($u['username']) ?> + '?');">
                                                 <input type="hidden" name="user_id" value="<?= (int) $u['user_id'] ?>">
                                                 <input type="hidden" name="action" value="<?= $u['is_suspended'] ? 'reactivate' : 'suspend' ?>">
                                                 <button type="submit" class="select-btn <?= $u['is_suspended'] ? 'btn-green' : 'btn-blue' ?>">
-                                                    <?= $u['is_suspended'] ? 'Reactivate' : 'Suspend' ?>
+                                                    <?= $actionWord ?>
                                                 </button>
                                             </form>
 
                                             <!-- Role change: admin only -->
                                             <?php if ($isAdmin): ?>
-                                                <form method="POST" action="change-role.php">
+                                                <form method="POST" action="change-role.php"
+                                                      onsubmit="var sel = this.elements['new_role']; return confirm('Change ' + <?= json_encode($u['username']) ?> + '\'s role to ' + sel.options[sel.selectedIndex].text + '?');">
                                                     <input type="hidden" name="user_id" value="<?= (int) $u['user_id'] ?>">
                                                     <select name="new_role">
                                                         <?php foreach (['player', 'moderator', 'admin'] as $roleOpt): ?>
@@ -184,6 +190,35 @@ $errorMessages = [
                         </div>
                     <?php endforeach; ?>
                 </div>
+            </div>
+
+            <!-- Monster kill stats (from vw_monster_kill_stats) -->
+            <div class="content-header" style="margin-top:35px;">
+                <h1 style="font-size:1.8rem;">Monster Stats</h1>
+                <p>Aggregated from combat_logs across every player, via vw_monster_kill_stats.</p>
+            </div>
+            <div class="monster-list-container" style="margin-bottom:35px;">
+                <table class="monster-table ov-table">
+                    <thead>
+                        <tr>
+                            <th>Monster</th><th>Kills</th><th>Losses</th><th>Fled</th>
+                            <th>Avg Dmg Dealt</th><th>Avg Dmg Taken</th><th>Max Dmg Dealt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($monsterStats as $ms): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($ms['monster_name']) ?></td>
+                                <td><?= (int) $ms['kill_count'] ?></td>
+                                <td><?= (int) $ms['character_losses'] ?></td>
+                                <td><?= (int) $ms['flee_count'] ?></td>
+                                <td><?= $ms['avg_damage_dealt'] ?? '—' ?></td>
+                                <td><?= $ms['avg_damage_taken'] ?? '—' ?></td>
+                                <td><?= $ms['max_damage_dealt'] ?? '—' ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </main>
 

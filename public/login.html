@@ -45,9 +45,10 @@
                     <!-- Submit Login Request Button -->
                     <button type="submit" class="action-btn">Login</button>
 
+                    <p class="footer-text"><a href="forgot-password.html">Forgot password?</a></p>
+
                     <!-- Link forwarding to the signup panel -->
                     <p class="footer-text">Don't have an account? <a href="signup.html">Sign Up here</a></p>
-                    <p class="footer-text"><a href="forgot-password.html">Forgot password?</a></p>
                 </form>
             </div>
         </div>
@@ -56,14 +57,18 @@
 
     <!-- Reads the ?error=... code login.php redirects back with, if any -->
     <script>
+        const params = new URLSearchParams(window.location.search);
+        const errorCode = params.get('error');
+
         const ERROR_MESSAGES = {
             missing_fields:      "Please fill in both fields.",
             invalid_login:       "Invalid username or password.",
             account_suspended:   "This account has been suspended. Contact a moderator or admin.",
+            account_locked:      (() => {
+                const minutes = params.get('minutes') || '15';
+                return `Too many failed login attempts. Try again in ${minutes} minute${minutes === '1' ? '' : 's'}.`;
+            })(),
         };
-
-        const params = new URLSearchParams(window.location.search);
-        const errorCode = params.get('error');
 
         if (errorCode) {
             const el = document.getElementById('form-error');

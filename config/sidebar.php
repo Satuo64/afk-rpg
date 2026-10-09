@@ -22,6 +22,7 @@ $navItems = [
     'skills'     => ['skills.php',      '💡 Skills'],
     'crafting'   => ['crafting.php',    '⚒️ Crafting'],
     'combat-log' => ['combat-log.php',  '📜 Combat Log'],
+    'leaderboard' => ['leaderboard.php', '🏆 Leaderboard'],
 ];
 
 $sessionRole = $_SESSION['role'] ?? '';
@@ -43,7 +44,7 @@ if (in_array($sessionRole, ['admin', 'moderator'], true)) {
     </nav>
 
     <div class="logout-area">
-        <a href="logout.php" class="logout-btn">
+        <a href="logout.php" class="logout-btn" onclick="return confirm('Log out of AFK RPG?');">
             <span>↪</span> Logout
         </a>
     </div>
